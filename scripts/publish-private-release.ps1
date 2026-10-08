@@ -24,7 +24,7 @@ if (!$release) {
     $payload = @{
         tag_name=$Tag; target_commitish=$Commit; name='ASRPRO Studio 0.1.0 - Private Windows portable';
         draft=$true; prerelease=$true;
-        body='Personal-use private backup. Extract the entire ZIP and run ASRPRO-Studio.exe. Includes the local manufacturer toolchain; not cleared for public redistribution. No board recordings or flash backups included. Windows x64, .NET Framework 4.5+, CH340 USB driver required. Unsigned launcher. Source checks and tests pass; portable startup and firmware compilation tested without flashing a board.'
+        body='Personal-use private backup. Extract the entire ZIP to a short writable path such as C:\ASRPRO-Studio and run ASRPRO-Studio.exe. The manufacturer compiler fails in long paths. Includes the local manufacturer toolchain; not cleared for public redistribution. No board recordings or flash backups included. Windows x64, .NET Framework 4.5+, CH340 USB driver required. Unsigned launcher. Source checks and tests pass; portable startup and firmware compilation tested without flashing a board.'
     } | ConvertTo-Json
     $release = Invoke-RestMethod -Uri "$api/releases" -Headers $headers -Method Post -ContentType 'application/json' -Body $payload
 }

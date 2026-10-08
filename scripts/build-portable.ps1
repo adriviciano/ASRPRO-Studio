@@ -27,6 +27,7 @@ try {
     $csc = Join-Path $env:WINDIR 'Microsoft.NET/Framework64/v4.0.30319/csc.exe'
     & $csc /nologo /target:winexe /platform:x64 /reference:System.Windows.Forms.dll /reference:System.Drawing.dll "/out:$release/ASRPRO-Studio.exe" (Join-Path $PSScriptRoot 'launcher.cs')
     if ($LASTEXITCODE -ne 0) { throw 'Error compilando el ejecutable de inicio.' }
+    Copy-Item -LiteralPath (Join-Path $root 'README.md') -Destination $release
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     [System.IO.Compression.ZipFile]::CreateFromDirectory($release, "$release.zip", [System.IO.Compression.CompressionLevel]::Optimal, $true)
     Get-FileHash "$release.zip" -Algorithm SHA256

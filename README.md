@@ -9,7 +9,9 @@ No son MIT ni se ha confirmado permiso para redistribuirlos publicamente.
 ## Windows portatil (copia privada)
 
 Descargar el ZIP de Releases, extraerlo completo en una carpeta con permisos de
-escritura y abrir `ASRPRO-Studio.exe`. Se abre la interfaz en el navegador.
+escritura y una ruta corta, por ejemplo `C:\ASRPRO-Studio`, y abrir
+`ASRPRO-Studio.exe`. Se abre la interfaz en el navegador. El compilador del
+fabricante puede fallar en rutas largas aunque los archivos esten presentes.
 Mantener abierta la ventana del lanzador; cerrarla detiene el servidor local.
 No requiere instalar Node ni ejecutar Tianwen Block. Windows debe disponer
 de .NET Framework 4.5 o posterior y del controlador USB CH340 de la placa.
