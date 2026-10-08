@@ -1,0 +1,5 @@
+{
+  "commands": [
+    { "id": 1, "phrase": "Comando uno", "message": "COMMAND_1", "action": "" }
+  ]
+}

@@ -1,0 +1,16 @@
+node_modules/
+tooling/python-libs/
+dist/
+vendor/
+*.zip
+*.exe
+*.log
+*.html
+!index.html
+!src/**/*.html
+!scripts/**/*.html
+releases/
+output/
+voice-commands.json
+voice-commands.json.tmp
+publish/
