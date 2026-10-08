@@ -1,80 +1,145 @@
+<div align="center">
+
 # ASRPRO Studio
 
-Estado: codigo fuente funcional con dependencias externas del fabricante.
-No necesita ejecutar la interfaz china, pero compilar y cargar firmware requiere
-el SDK, modelos y agente de programacion oficiales. La copia portatil privada
-incluye estos archivos para uso personal, conservando sus avisos originales.
-No son MIT ni se ha confirmado permiso para redistribuirlos publicamente.
+**Your voice. Your commands. Your ASRPRO-01.**
 
-## Windows portatil (copia privada)
+Configure, compile, flash and teach voice commands. One local workspace.
 
-Descargar el ZIP de Releases, extraerlo completo en una carpeta con permisos de
-escritura y una ruta corta, por ejemplo `C:\ASRPRO-Studio`, y abrir
-`ASRPRO-Studio.exe`. Se abre la interfaz en el navegador. El compilador del
-fabricante puede fallar en rutas largas aunque los archivos esten presentes.
-Mantener abierta la ventana del lanzador; cerrarla detiene el servidor local.
-No requiere instalar Node ni ejecutar Tianwen Block. Windows debe disponer
-de .NET Framework 4.5 o posterior y del controlador USB CH340 de la placa.
-El ejecutable no esta firmado; Windows puede mostrar una advertencia.
-No mover el exe fuera de su carpeta: necesita `app` y `runtime` junto a el.
-El paquete no incluye grabaciones ni respaldos de la placa.
+[**English**](README.md) · [Español](README.es.md)
 
-Reconstruir con `scripts/build-portable.ps1`, despues de `npm ci`, con el SDK
-local en `vendor/asrpro`. Los binarios y el SDK se guardan como descarga de
-Release privada, no en el historial Git.
+![Board](https://img.shields.io/badge/Board-ASRPRO--01-087f8c)
+![Platform](https://img.shields.io/badge/Platform-Windows_x64-2563eb)
+![Languages](https://img.shields.io/badge/Interface-EN_%2F_ES-16a34a)
+![License](https://img.shields.io/badge/Own_code-MIT-52525b)
 
-Entorno local en ingles y espanol para programar placas ASRPRO-01 por USB.
-La interfaz usa ingles por defecto y espanol si el idioma principal del sistema
-(expuesto por el navegador) es espanol. El selector permite cambiarlo durante la sesion.
-Esto no modifica el idioma de las frases aprendidas ni los mensajes UART.
-Define comandos personalizados, compila y carga firmware, aprende frases
-con la voz del usuario y comprueba el reconocimiento. No depende de un aparato.
+[Download for Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/tag/v0.1.0-private) · [Quick Start](#quick-start) · [Development](#development)
 
-## Iniciar
+</div>
 
-Instalar dependencias con `npm ci` y ejecutar `npm run dev`.
-Abrir http://127.0.0.1:5187/ para el modo guiado predeterminado.
-El modo avanzado esta en `/avanzado`; `/guiado` sigue funcionando.
-El servidor solo escucha en localhost. El audio no se envia a servicios externos.
-Las herramientas de compilacion actuales son para Windows.
-Instalar por separado el SDK del fabricante en `vendor/asrpro`.
-No se distribuye con el codigo.
+---
 
-## Flujo
+> **Private personal-use package.** The archive includes manufacturer tools whose permission for public redistribution has not been established. MIT applies to our own code, not to the SDK. See [Third-Party Notices](THIRD-PARTY-NOTICES.md).
 
-0. Conectar la placa seleccionando su puerto USB.
-1. Introducir los nombres y mensajes de los comandos (entre 1 y 10).
-2. Compilar el firmware.
-3. Cargarlo y esperar la confirmacion de la placa.
-4. Grabar cada frase ante el microfono y repetirla cuando se solicite.
+## From USB to Voice
 
-Las etapas son clicables. Si la placa confirma los mismos comandos,
-se puede acceder directamente a grabar sin volver a cargar firmware.
-La carga borra las frases aprendidas; requiere aceptacion y guarda un respaldo
-en `output/backups`. No desconectar el USB durante la carga.
-Escribir el nombre de una frase no la ensena al modulo: hay que grabarla.
-La activacion es una frase personalizada opcional; la escucha permanece activa.
+| Step | What happens |
+| :--- | :--- |
+| **0 · Connect** | Select your board's USB serial port. |
+| **1 · Define** | Set command names and UART output messages. |
+| **2 · Compile** | Generate firmware for the saved configuration. |
+| **3 · Flash** | Upload and wait for verification and board confirmation. |
+| **4 · Teach** | Say each phrase into the board's microphone, then repeat when prompted. |
 
-## Configuracion
+Click a step to return or advance when its requirements are met. With no connected board, only step 0 is shown. If the board confirms matching commands, you can go straight to recording.
 
-Una instalacion nueva utiliza `voice-commands.example.json`, un ejemplo generico.
-Al guardar se crea `voice-commands.json`, configuracion local excluida de Git.
-Las configuraciones locales existentes se conservan.
-Los mensajes personalizados y los identificadores `CMD:<id>` salen por UART
-a 115200 baudios: PB5 TX, PB6 RX, niveles de 3.3 V y masa comun.
-Las acciones externas corresponden al dispositivo que recibe estos mensajes.
+**Typing a phrase does not teach it to the board.** Record through the ASRPRO-01 microphone, not the computer microphone.
 
-## Comprobaciones
+## Quick Start
 
-`npm test`, `npm run check`, `npm run build`.
-Las pruebas de empaquetado requieren una compilacion local y verifican ambos
-nucleos, tabla de comandos y posicion de los modelos.
-El programador comprueba CRC y lectura completa antes de confirmar la carga.
+1. Download `ASRPRO-Studio-Windows-x64.zip` from the [private release](https://github.com/adriviciano/ASRPRO-Studio/releases/tag/v0.1.0-private). Repository access is required.
+2. Extract **the entire ZIP** to a short, writable folder, such as `C:\ASRPRO-Studio`.
+3. Connect the ASRPRO-01 with a USB data cable.
+4. Run `ASRPRO-Studio.exe` and follow the guided steps in your browser.
 
-## Publicacion
+Keep the launcher open while using the application. Closing it stops the local server. Keep the executable beside the `app` and `runtime` folders.
 
-No incluir SDK, ejecutables del fabricante, respaldos ni configuracion personal.
-El codigo propio utiliza la licencia MIT (ver LICENSE). Las dependencias y el
-SDK conservan sus licencias; revisar sus condiciones antes de distribuirlos.
-Proyecto independiente del fabricante:
-no presupone permiso para redistribuir sus herramientas.
+| Requirement | Details |
+| :--- | :--- |
+| System | Windows x64 |
+| Launcher | .NET Framework 4.5 or later |
+| USB | CH340 driver and a USB data cable |
+| Folder | Short and writable; long paths can break the manufacturer compiler |
+| Runtime | Node.js included; no separate installation needed |
+
+The launcher is unsigned; Windows may display a warning. You do not need to open Tianwen Block or its Chinese interface.
+
+> **Before flashing:** uploading firmware erases learned phrases. The app asks for confirmation and saves a backup under `app/output/backups`. Do not disconnect USB during flashing. The package does not include personal recordings or board backups.
+
+## Built for the ASRPRO-01
+
+- Guided setup by default, with an advanced workspace at `/avanzado`.
+- **1 to 10 commands**, customizable phrases and output messages.
+- Optional activation phrase.
+- Recording feedback: listening, repeat, learned and retry.
+- Project import/export and recognition activity.
+- Firmware checks using CRC and read-back verification.
+- English and Spanish. English by default unless the primary system/browser language is Spanish; switch language during the session.
+- Learning and recognition run on the board. The application does not upload microphone recordings to a cloud service.
+
+<details>
+<summary><strong>View the supported board</strong></summary>
+
+<p align="center">
+<img src="public/board.jpeg" alt="ASRPRO-01 board with USB-C connector and onboard microphone" width="280">
+</p>
+
+Tested with the pictured ASRPRO-01. Other boards and revisions are not guaranteed.
+
+</details>
+
+## Connect Your Project
+
+Command output uses UART at **115200 baud, 3.3 V logic**.
+
+| ASRPRO-01 pin | Role |
+| :--- | :--- |
+| `PB5` | TX: command output |
+| `PB6` | RX: incoming communication |
+| `GND` | Common ground with the receiver |
+
+For a receive-only ESP32 monitor: **PB5 → GPIO27**, **GND → GND**. Use the [serial monitor example](esp32/monitor-voz/monitor-voz.ino). The [controller example](esp32/control-voz/README.md) processes specific commands.
+
+Recognition can emit your configured message and `CMD:<id>`. The receiving controller decides what action to perform. ASRPRO Studio is not tied to any particular appliance.
+
+## Development
+
+The source is in this repository. Manufacturer tools are stored separately in the private release, not in Git history. Place the matching SDK at `vendor/asrpro`.
+
+Use a Node.js version compatible with the dependencies. The portable package uses **Node.js 24.15.0**.
+
+```powershell
+npm ci
+npm run dev
+```
+
+Open [http://127.0.0.1:5187/](http://127.0.0.1:5187/). The server binds only to localhost. `/` is guided mode, `/avanzado` is advanced mode, and `/guiado` is a guided-mode alias.
+
+| Folder | Contents |
+| :--- | :--- |
+| `src/app` | Angular 17 interface, services and translations |
+| `server` | Local API, compiler integration and serial programmer |
+| `firmware` | Custom ASRPRO firmware |
+| `esp32` | Serial monitor and controller examples |
+| `scripts` | Windows launcher, packaging and release checks |
+
+New installations use [voice-commands.example.json](voice-commands.example.json). Saving creates `voice-commands.json`, excluded from Git. Existing local configurations are preserved.
+
+### Check and Package
+
+```powershell
+npm test
+npm run check
+npm run build
+powershell -ExecutionPolicy Bypass -File scripts/build-portable.ps1
+```
+
+Packaging requires the official SDK and a clean output folder. Firmware-layout integration tests need local compilation artifacts; they are skipped when absent. [test-portable.ps1](scripts/test-portable.ps1) checks startup, the frontend, USB enumeration and compilation **without flashing a board**.
+
+## Troubleshooting
+
+| Symptom | First check |
+| :--- | :--- |
+| No serial port | Data cable, CH340 driver, another app holding the port |
+| Compiler cannot find headers | Extract to a shorter path; keep package folders together |
+| No recognition after flashing | Record again; flashing clears learned templates |
+| Phrase rejected | Wait for the listening prompt; repeat clearly with similar tone and distance |
+| Recording step locked | Connect and verify that board firmware matches the saved commands |
+
+## License and Credits
+
+Our source code is [MIT](LICENSE). Node.js, JavaScript dependencies, the RISC-V compiler, ASRPRO SDK, models and programming agent retain their own licenses and notices.
+
+An independent project, not an official manufacturer application. Compilation and flashing use manufacturer tools, but do not require running the original graphical program.
+
+**Keep the bundled archive private until redistribution rights have been reviewed.** Attribution does not replace permission.
