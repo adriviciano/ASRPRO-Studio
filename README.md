@@ -37,6 +37,18 @@ Click a step to return or advance when its requirements are met. With no connect
 
 ## Quick Start
 
+### Downloads and Hardware
+
+- [Tianwen Block installer ZIP](https://www.haohaodada.com/video/new/zipfiles/twenBlock.zip): external manufacturer tools used by Studio. Extract the ZIP and run its installer; review its license yourself. The version verified with Studio is **2025-1a0907**. If the manufacturer replaces this file, Studio may reject the new download until its compatibility and hash are reviewed.
+- [Tianwen official website](https://www.twen51.com/new/twen51/index.php) and [official installation manual](https://www.twen51.com/new/learning_show.php?id=559) (Chinese).
+- [ASRPRO-01 board on AliExpress](https://es.aliexpress.com/item/1005012990097981.html): listing supplied by the project owner, not a compatibility guarantee or an endorsement of the seller. Check the selected variant, USB-C connector and pin labels against the board pictured below. Price and availability may change.
+
+### Where to Install Tianwen
+
+**Use a short folder directly under the drive root**, preferably `C:\TianwenBlock`, or `D:\TianwenBlock`. This means a folder at the root, not loose files placed directly in `C:\`. Avoid deeply nested directories, `Program Files`, OneDrive and spaces in the path. Manufacturer build tools have failed with long paths in our tests; this is a compatibility recommendation, not proof that every other path is rejected by the installer.
+
+Studio 0.2.0 proposes a Tianwen folder beside the executable. If that location is nested, change the destination in the manufacturer installer to the short root-level folder above. Studio detects `C:\TianwenBlock`; for another location, select the installation folder (or its `asrpro` subfolder) when prompted. It copies the SDK into its own workspace, leaving your Tianwen installation unchanged. Do not bypass certificate warnings if a manufacturer's website is unavailable.
+
 ### One Executable, External Manufacturer Tools
 
 `ASRPRO-Studio.exe` includes the application and Node.js, but
@@ -96,15 +108,50 @@ Tested with the pictured ASRPRO-01. Other boards and revisions are not guarantee
 
 Command output uses UART at **115200 baud, 3.3 V logic**.
 
-| ASRPRO-01 pin | Role |
+### Pin Reference
+
+These names refer to the silkscreen on the pictured ASRPRO-01, not to physical pin numbers. Check your board revision before wiring. UART assignments below describe **Studio firmware**, not every possible firmware for this chip.
+
+| ASRPRO-01 pin | Role in this project |
 | :--- | :--- |
 | `PB5` | TX: command output |
 | `PB6` | RX: incoming communication |
 | `GND` | Common ground with the receiver |
+| `5V` | Board power rail; use USB-C for the initial setup and tests |
+| `3V3` | 3.3 V rail, not a GPIO; leave unconnected in the ESP32 monitor setup |
+| `PA0`, `PA1`, `PA2`, `PA3`, `PA4`, `PA5`, `PA6`, `PC4` | GPIO/multiplexed peripheral pins; no command output is assigned to them by Studio |
+| `SPK+`, `SPK-` | Speaker connection; not UART or GPIO. Do not connect either terminal to ESP32 pins or ground |
+
+The PA/PC pins are not useless: custom firmware can configure peripheral functions supported by the chip. Studio currently communicates over UART instead of assigning one physical output pin to each voice command. This table is not a full electrical datasheet; verify permitted voltages, current and alternate functions in the exact board/chip documentation before using those pins.
+
+### ESP32 Receive-Only Wiring
+
+Power each board from its own USB port for the first test. With power disconnected, wire:
+
+```text
+ASRPRO-01                         ESP32 DevKit
+PB5 (TX, 3.3 V logic) ----------> GPIO27 (UART RX)
+GND ---------------------------- GND
+PB6 (RX)                         not connected
+5V / 3V3                         not connected between boards
+```
+
+Use **115200 baud, 8 data bits, no parity, 1 stop bit (8N1)** for both the ASRPRO UART and the ESP32 Serial Monitor. The example uses `HardwareSerial(2)`; GPIO27 is selected by the sketch and is not a mandatory chip-level UART pin. Compile this sketch for the ESP32, not the ASRPRO.
+
+**Do not apply 5 V to an ESP32 GPIO. Do not join the boards' 5 V rails while both are USB-powered.** They still need common ground. An ESP32 TX wire to PB6 is unnecessary for monitoring and can conflict with the ASRPRO's onboard USB-to-serial transmitter: leave it disconnected. Close any other application holding the same serial port.
 
 For a receive-only ESP32 monitor: **PB5 → GPIO27**, **GND → GND**. Use the [serial monitor example](esp32/monitor-voz/monitor-voz.ino). The [controller example](esp32/control-voz/README.md) processes specific commands.
 
 Recognition can emit your configured message and `CMD:<id>`. The receiving controller decides what action to perform. ASRPRO Studio is not tied to any particular appliance.
+
+### First Voice Test
+
+1. Flash the configured Studio firmware and teach the phrases through the ASRPRO microphone. Flashing again clears learned phrases.
+2. Upload the monitor sketch to the ESP32 and open its Serial Monitor at 115200.
+3. Say the activation phrase, if enabled, followed by a learned command.
+4. Check for the configured output message and/or `CMD:<id>`. Startup/debug messages alone do not confirm recognition. If an action handler reads both forms, avoid triggering the same action twice.
+
+The two boards use separate USB serial ports. Test recognition in Studio first; if it works there but not on the ESP32, check PB5-to-RX, common ground, baud rate and the ESP32 sketch. Studio's USB programming connection does not require extra ESP32 wires.
 
 ## Development
 
