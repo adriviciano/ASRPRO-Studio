@@ -13,7 +13,7 @@ Configura, compila, carga y enseña comandos de voz. Todo en un entorno local.
 ![Placa](https://img.shields.io/badge/Placa-ASRPRO--01-087f8c)
 ![Plataforma](https://img.shields.io/badge/Plataforma-Windows_x64-2563eb)
 ![Idiomas](https://img.shields.io/badge/Interfaz-EN_%2F_ES-16a34a)
-![Licencia](https://img.shields.io/badge/Codigo_propio-CC0-1.0-52525b)
+![Licencia](https://img.shields.io/badge/Codigo_propio-CC0--1.0-52525b)
 
 [Descargar para Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/latest) · [Inicio rápido](#inicio-rápido) · [Desarrollo](#desarrollo)
 

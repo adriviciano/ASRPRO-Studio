@@ -13,7 +13,7 @@ Configure, compile, flash and teach voice commands. One local workspace.
 ![Board](https://img.shields.io/badge/Board-ASRPRO--01-087f8c)
 ![Platform](https://img.shields.io/badge/Platform-Windows_x64-2563eb)
 ![Languages](https://img.shields.io/badge/Interface-EN_%2F_ES-16a34a)
-![License](https://img.shields.io/badge/Own_code-CC0-1.0-52525b)
+![License](https://img.shields.io/badge/Own_code-CC0--1.0-52525b)
 
 [Download for Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/latest) · [Quick Start](#quick-start) · [Development](#development)
 
