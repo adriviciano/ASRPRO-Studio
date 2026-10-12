@@ -1,6 +1,5 @@
 import express from 'express';
 import { learningFailure } from './learning-feedback.mjs';
-import { createServer as createViteServer } from 'vite';
 import { SerialPort } from 'serialport';
 import { readFile, writeFile, rename } from 'node:fs/promises';
 import { randomBytes } from 'node:crypto';
@@ -124,6 +123,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(express.static('dist'));
   app.get('*', (_req, res) => res.sendFile('index.html', { root: 'dist' }));
 } else {
+  const { createServer: createViteServer } = await import('vite');
   const vite = await createViteServer({ server: { middlewareMode: true }, appType: 'spa' });
   app.use(vite.middlewares);
 }

@@ -31,7 +31,7 @@ try {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'licenses\node-LICENSE') -Destination (Join-Path $runtime 'LICENSE')
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $payload = Join-Path $stage 'payload.zip'
-    [IO.Compression.ZipFile]::CreateFromDirectory($package,$payload,[IO.Compression.CompressionLevel]::Optimal,$true)
+    [IO.Compression.ZipFile]::CreateFromDirectory($package,$payload,[IO.Compression.CompressionLevel]::Fastest,$true)
     $zip = [IO.Compression.ZipFile]::OpenRead($payload)
     try {
         if ($zip.Entries | Where-Object { $_.FullName.Replace('\','/') -match '(?i)/app/vendor/|makebin\.exe|ci-tool-kit|twenBlock|riscv-nuclei' }) {
