@@ -2,6 +2,8 @@
 
 # ASRPRO Studio
 
+**Proyecto 100% vibecodeado con ayuda de IA.** Un experimento personal, no un producto auditado de forma independiente. Revisa el código y las precauciones de hardware antes de usarlo.
+
 **Tu voz. Tus comandos. Tu ASRPRO-01.**
 
 Configura, compila, carga y enseña comandos de voz. Todo en un entorno local.
@@ -11,7 +13,7 @@ Configura, compila, carga y enseña comandos de voz. Todo en un entorno local.
 ![Placa](https://img.shields.io/badge/Placa-ASRPRO--01-087f8c)
 ![Plataforma](https://img.shields.io/badge/Plataforma-Windows_x64-2563eb)
 ![Idiomas](https://img.shields.io/badge/Interfaz-EN_%2F_ES-16a34a)
-![Licencia](https://img.shields.io/badge/Codigo_propio-MIT-52525b)
+![Licencia](https://img.shields.io/badge/Codigo_propio-CC0-1.0-52525b)
 
 [Descargar para Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/latest) · [Inicio rápido](#inicio-rápido) · [Desarrollo](#desarrollo)
 
@@ -19,7 +21,7 @@ Configura, compila, carga y enseña comandos de voz. Todo en un entorno local.
 
 ---
 
-> **Herramientas externas.** El ejecutable y este repositorio no incluyen Tianwen Block, su SDK, modelos ni compilador. Studio los localiza en tu PC u ofrece el instalador oficial. MIT solo cubre nuestro codigo. Consulta [Avisos de terceros](THIRD-PARTY-NOTICES.md).
+> **Herramientas externas.** El ejecutable y este repositorio no incluyen Tianwen Block, su SDK, modelos ni compilador. Studio los localiza en tu PC u ofrece el instalador oficial. CC0-1.0 solo cubre nuestro codigo. Consulta [Avisos de terceros](THIRD-PARTY-NOTICES.md).
 
 ## Del USB a la Voz
 
@@ -204,8 +206,10 @@ El empaquetado no requiere SDK. Las pruebas de firmware necesitan artefactos loc
 
 ## Licencia y Créditos
 
-Nuestro código utiliza [MIT](LICENSE). Node.js, las dependencias JavaScript, el compilador RISC-V, el SDK ASRPRO, los modelos y el agente de programación conservan sus licencias y avisos.
+Nuestro código utiliza [CC0-1.0](LICENSE). Node.js, las dependencias JavaScript, el compilador RISC-V, el SDK ASRPRO, los modelos y el agente de programación conservan sus licencias y avisos.
+
+Las aportaciones propias se dedican al dominio público en la medida permitida por la ley: puedes copiarlas, modificarlas, redistribuirlas y utilizarlas comercialmente sin exigir atribución. CC0 no elimina derechos de terceros ni concede derechos de patentes o marcas. Consulta la [explicación de CC0](https://creativecommons.org/publicdomain/zero/1.0/).
 
 Proyecto independiente, no una aplicación oficial del fabricante. La compilación y la carga usan sus herramientas, pero no requieren ejecutar el programa gráfico original.
 
-Las herramientas externas conservan sus condiciones y no estan cubiertas por MIT. Excluir sus archivos no equivale a una auditoría legal completa de dependencias o integración con el SDK. Atribuir al autor no sustituye su autorización.
+Las herramientas externas conservan sus condiciones y no estan cubiertas por CC0-1.0. Excluir sus archivos no equivale a una auditoría legal completa de dependencias o integración con el SDK. Atribuir al autor no sustituye su autorización.

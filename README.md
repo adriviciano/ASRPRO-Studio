@@ -2,6 +2,8 @@
 
 # ASRPRO Studio
 
+**100% vibe-coded with AI assistance.** A personal experiment, not an independently audited product. Review the code and hardware precautions before use.
+
 **Your voice. Your commands. Your ASRPRO-01.**
 
 Configure, compile, flash and teach voice commands. One local workspace.
@@ -11,7 +13,7 @@ Configure, compile, flash and teach voice commands. One local workspace.
 ![Board](https://img.shields.io/badge/Board-ASRPRO--01-087f8c)
 ![Platform](https://img.shields.io/badge/Platform-Windows_x64-2563eb)
 ![Languages](https://img.shields.io/badge/Interface-EN_%2F_ES-16a34a)
-![License](https://img.shields.io/badge/Own_code-MIT-52525b)
+![License](https://img.shields.io/badge/Own_code-CC0-1.0-52525b)
 
 [Download for Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/latest) · [Quick Start](#quick-start) · [Development](#development)
 
@@ -19,7 +21,7 @@ Configure, compile, flash and teach voice commands. One local workspace.
 
 ---
 
-> **Manufacturer tools are external.** Neither the current executable nor this source repository bundles Tianwen Block, its SDK, models or compiler. Studio locates them on your PC or offers the official installer. MIT covers our own code only. See [Third-Party Notices](THIRD-PARTY-NOTICES.md).
+> **Manufacturer tools are external.** Neither the current executable nor this source repository bundles Tianwen Block, its SDK, models or compiler. Studio locates them on your PC or offers the official installer. CC0-1.0 covers our own code only. See [Third-Party Notices](THIRD-PARTY-NOTICES.md).
 
 ## From USB to Voice
 
@@ -204,8 +206,10 @@ Packaging requires no SDK and a fresh output executable path. Firmware-layout in
 
 ## License and Credits
 
-Our source code is [MIT](LICENSE). Node.js, JavaScript dependencies, the RISC-V compiler, ASRPRO SDK, models and programming agent retain their own licenses and notices.
+Our source code is [CC0-1.0](LICENSE). Node.js, JavaScript dependencies, the RISC-V compiler, ASRPRO SDK, models and programming agent retain their own licenses and notices.
+
+Our own contributions are dedicated to the public domain to the extent permitted by law: you may copy, modify, redistribute and use them commercially without requiring attribution. CC0 does not waive third-party rights or grant patent/trademark rights. See the [CC0 explanation](https://creativecommons.org/publicdomain/zero/1.0/).
 
 An independent project, not an official manufacturer application. Compilation and flashing use manufacturer tools, but do not require running the original graphical program.
 
-External manufacturer tools keep their original terms and are not covered by MIT. Excluding their files does not constitute a complete licensing audit of dependencies or SDK integration code. Attribution does not replace permission.
+External manufacturer tools keep their original terms and are not covered by CC0-1.0. Excluding their files does not constitute a complete licensing audit of dependencies or SDK integration code. Attribution does not replace permission.

@@ -1,6 +1,6 @@
 # Third-party components / Componentes de terceros
 
-ASRPRO Studio source code is licensed under MIT. This does not relicense
+ASRPRO Studio source code is licensed under CC0-1.0. This does not relicense
 the manufacturer SDK, models, libraries, compiler, or programming agent.
 
 ASRPRO-Studio.exe does not contain the manufacturer SDK, models,
@@ -23,6 +23,6 @@ The RISC-V compiler and SDK components retain their own license notices.
 Some components may impose additional source-distribution obligations; this
 package is not a licensing audit or a public redistribution clearance.
 
-El codigo propio es MIT. Los archivos del fabricante no se relicencian.
+El codigo propio es CC0-1.0. Los archivos del fabricante no se relicencian.
 El ejecutable actual y el repositorio no incluyen el SDK ni el instalador
 Tianwen; se obtienen aparte. Conservar avisos no sustituye permisos.

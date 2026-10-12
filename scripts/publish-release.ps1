@@ -18,7 +18,7 @@ foreach ($line in $credential) {
 $headers = @{ Authorization="Bearer $($fields['password'])"; Accept='application/vnd.github+json' }
 $api = "https://api.github.com/repos/$Repository"
 $repo = Invoke-RestMethod -Uri $api -Headers $headers
-if (!$repo.private) { throw 'Repository visibility changed; review before publishing.' }
+if ($repo.full_name -ne $Repository) { throw 'Unexpected repository identity.' }
 $hash = (Get-FileHash -LiteralPath $exe.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
 $releases = Invoke-RestMethod -Uri "$api/releases" -Headers $headers
 if ($releases | Where-Object tag_name -eq $Tag) { throw 'Release already exists; no automatic overwrite.' }
