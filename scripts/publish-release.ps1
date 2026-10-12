@@ -20,7 +20,7 @@ $api = "https://api.github.com/repos/$Repository"
 $repo = Invoke-RestMethod -Uri $api -Headers $headers
 if (!$repo.private) { throw 'Repository visibility changed; review before publishing.' }
 $hash = (Get-FileHash -LiteralPath $exe.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-$releases = @(Invoke-RestMethod -Uri "$api/releases" -Headers $headers)
+$releases = Invoke-RestMethod -Uri "$api/releases" -Headers $headers
 if ($releases | Where-Object tag_name -eq $Tag) { throw 'Release already exists; no automatic overwrite.' }
 $body = @"
 Single Windows x64 executable with an external Tianwen SDK. No manufacturer SDK, compiler, models or installer bundled.
