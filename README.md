@@ -13,13 +13,13 @@ Configure, compile, flash and teach voice commands. One local workspace.
 ![Languages](https://img.shields.io/badge/Interface-EN_%2F_ES-16a34a)
 ![License](https://img.shields.io/badge/Own_code-MIT-52525b)
 
-[Download for Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/tag/v0.1.0-private) · [Quick Start](#quick-start) · [Development](#development)
+[Download for Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/latest) · [Quick Start](#quick-start) · [Development](#development)
 
 </div>
 
 ---
 
-> **Private personal-use package.** The archive includes manufacturer tools whose permission for public redistribution has not been established. MIT applies to our own code, not to the SDK. See [Third-Party Notices](THIRD-PARTY-NOTICES.md).
+> **Manufacturer tools are external.** Neither the current executable nor this source repository bundles Tianwen Block, its SDK, models or compiler. Studio locates them on your PC or offers the official installer. MIT covers our own code only. See [Third-Party Notices](THIRD-PARTY-NOTICES.md).
 
 ## From USB to Voice
 
@@ -37,12 +37,24 @@ Click a step to return or advance when its requirements are met. With no connect
 
 ## Quick Start
 
-1. Download `ASRPRO-Studio-Windows-x64.zip` from the [private release](https://github.com/adriviciano/ASRPRO-Studio/releases/tag/v0.1.0-private). Repository access is required.
-2. Extract **the entire ZIP** to a short, writable folder, such as `C:\ASRPRO-Studio`.
-3. Connect the ASRPRO-01 with a USB data cable.
-4. Run `ASRPRO-Studio.exe` and follow the guided steps in your browser.
+### One Executable, External Manufacturer Tools
 
-Keep the launcher open while using the application. Closing it stops the local server. Keep the executable beside the `app` and `runtime` folders.
+`ASRPRO-Studio.exe` includes the application and Node.js, but
+no Tianwen Block installer or manufacturer SDK. It detects a compatible Tianwen
+installation beside the executable or in common installation locations. If none
+is found, choose an existing folder or consent to download the official 816 MB
+installer. You review its license and Windows permission prompts yourself.
+The verified version is 2025-1a0907; unexpected downloads are rejected by SHA-256.
+Studio creates its own SDK workspace without modifying the original installation.
+Requires Windows x64, .NET Framework 4.5+, a browser and the CH340 USB driver.
+The startup/download assistant is always English; the application remains English/Spanish.
+First launch extracts the application under `%LOCALAPPDATA%\ASRPRO`; subsequent launches reuse it.
+Keep the launcher open while using Studio. Closing it stops its local server.
+
+1. Download `ASRPRO-Studio.exe` from the [latest release](https://github.com/adriviciano/ASRPRO-Studio/releases/latest).
+2. Run it from a writable folder. No adjacent `app` or `runtime` folders are needed.
+3. Let Studio detect Tianwen Block, select its folder, or approve its download and interactive installation.
+4. Connect the ASRPRO-01 with a USB data cable and follow the guided steps.
 
 | Requirement | Details |
 | :--- | :--- |
@@ -52,7 +64,9 @@ Keep the launcher open while using the application. Closing it stops the local s
 | Folder | Short and writable; long paths can break the manufacturer compiler |
 | Runtime | Node.js included; no separate installation needed |
 
-The launcher is unsigned; Windows may display a warning. You do not need to open Tianwen Block or its Chinese interface.
+### Windows Security Warning
+
+The executable is **not digitally signed**. Windows SmartScreen may show "Windows protected your PC" or an unknown-publisher warning because the application has no established reputation. This is not, by itself, a malware detection. Download only from this repository and compare SHA-256 with the release notes. If Defender reports a named threat, do not assume it is harmless or disable protection: stop and report the exact detection.
 
 > **Before flashing:** uploading firmware erases learned phrases. The app asks for confirmation and saves a backup under `app/output/backups`. Do not disconnect USB during flashing. The package does not include personal recordings or board backups.
 
@@ -94,16 +108,19 @@ Recognition can emit your configured message and `CMD:<id>`. The receiving contr
 
 ## Development
 
-The source is in this repository. Manufacturer tools are stored separately in the private release, not in Git history. Place the matching SDK at `vendor/asrpro`.
+The supported end-user workflow runs through the executable, including when you build it yourself. Building Studio does **not** require Tianwen or the SDK. Compiling board firmware later does require those external tools; the launcher handles discovery and setup.
 
 Use a Node.js version compatible with the dependencies. The portable package uses **Node.js 24.15.0**.
 
 ```powershell
 npm ci
-npm run dev
+npm test
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-exe.ps1
 ```
 
-Open [http://127.0.0.1:5187/](http://127.0.0.1:5187/). The server binds only to localhost. `/` is guided mode, `/avanzado` is advanced mode, and `/guiado` is a guided-mode alias.
+Build on Windows x64 with Node.js 24.15.0, npm and .NET Framework 4.5+ (including its C# compiler). The result is `releases/ASRPRO-Studio.exe`; run it to set up external tools and open Studio. Packaging installs production dependencies into an isolated staging folder and embeds Node.js with its license. It never copies `vendor`, personal commands or backups. Use `-OutputDirectory C:\ASRPRO-build` for another output folder; existing executables are not overwritten.
+
+For frontend/backend development only, `npm run dev` opens [http://127.0.0.1:5187/](http://127.0.0.1:5187/). Firmware features need a compatible local SDK at `vendor/asrpro`; the development server does not run the launcher's setup assistant. The server binds only to localhost. `/` is guided mode, `/avanzado` is advanced mode, and `/guiado` is a guided-mode alias.
 
 | Folder | Contents |
 | :--- | :--- |
@@ -117,14 +134,16 @@ New installations use [voice-commands.example.json](voice-commands.example.json)
 
 ### Check and Package
 
+The current locked dependencies report npm security advisories (including high-severity production advisories). This release is not a security audit; dependency upgrades and their compatibility need a separate review. Keep the service local and do not expose it to a network.
+
 ```powershell
 npm test
 npm run check
 npm run build
-powershell -ExecutionPolicy Bypass -File scripts/build-portable.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-exe.ps1
 ```
 
-Packaging requires the official SDK and a clean output folder. Firmware-layout integration tests need local compilation artifacts; they are skipped when absent. [test-portable.ps1](scripts/test-portable.ps1) checks startup, the frontend, USB enumeration and compilation **without flashing a board**.
+Packaging requires no SDK and a fresh output executable path. Firmware-layout integration tests need local compilation artifacts; they are skipped when absent. Run `releases\ASRPRO-Studio.exe --self-test` to check startup with an existing compatible Tianwen installation, without opening the installer or flashing a board. The full installation workflow on a PC without Tianwen has not yet been tested end to end.
 
 ## Troubleshooting
 
@@ -142,4 +161,4 @@ Our source code is [MIT](LICENSE). Node.js, JavaScript dependencies, the RISC-V 
 
 An independent project, not an official manufacturer application. Compilation and flashing use manufacturer tools, but do not require running the original graphical program.
 
-**Keep the bundled archive private until redistribution rights have been reviewed.** Attribution does not replace permission.
+External manufacturer tools keep their original terms and are not covered by MIT. Excluding their files does not constitute a complete licensing audit of dependencies or SDK integration code. Attribution does not replace permission.

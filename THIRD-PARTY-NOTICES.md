@@ -3,18 +3,26 @@
 ASRPRO Studio source code is licensed under MIT. This does not relicense
 the manufacturer SDK, models, libraries, compiler, or programming agent.
 
-The private personal-use portable archive contains a local copy of the
-ASRPRO tools obtained from Tianwen / the board manufacturer's distribution.
-Their original notices and license files are retained. Permission for public
-redistribution has NOT been established. Do not publish this archive or make
-a repository containing these components public without reviewing their terms.
+ASRPRO-Studio.exe does not contain the manufacturer SDK, models,
+compiler or installer. It locates a compatible local Tianwen installation or
+offers to download the installer directly from its official HTTPS source.
+The verified installer is 2025-1a0907. The user approves installation and reviews
+its license; no silent acceptance or automatic elevation is performed.
+An SDK workspace is copied locally at runtime to avoid modifying Tianwen.
+This removes the bundled SDK redistribution issue, but does not certify all
+remaining dependencies or derivative firmware code for public distribution.
+
+Manufacturer files are downloaded or located separately on the user's PC.
+They are not included in the current GitHub release or source repository.
+Building the Studio executable requires no manufacturer installation.
+Compiling board firmware at runtime requires the externally installed SDK.
 
 Node.js is bundled as a runtime. Its license notice accompanies the runtime.
 JavaScript dependencies retain their respective licenses in node_modules.
 The RISC-V compiler and SDK components retain their own license notices.
 Some components may impose additional source-distribution obligations; this
-private backup is not a licensing audit or a public redistribution clearance.
+package is not a licensing audit or a public redistribution clearance.
 
 El codigo propio es MIT. Los archivos del fabricante no se relicencian.
-El paquete privado es una copia para uso personal, no una autorizacion para
-redistribuirlo publicamente. Conservar los avisos no sustituye dicho permiso.
+El ejecutable actual y el repositorio no incluyen el SDK ni el instalador
+Tianwen; se obtienen aparte. Conservar avisos no sustituye permisos.

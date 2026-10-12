@@ -13,13 +13,13 @@ Configura, compila, carga y enseña comandos de voz. Todo en un entorno local.
 ![Idiomas](https://img.shields.io/badge/Interfaz-EN_%2F_ES-16a34a)
 ![Licencia](https://img.shields.io/badge/Codigo_propio-MIT-52525b)
 
-[Descargar para Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/tag/v0.1.0-private) · [Inicio rápido](#inicio-rápido) · [Desarrollo](#desarrollo)
+[Descargar para Windows](https://github.com/adriviciano/ASRPRO-Studio/releases/latest) · [Inicio rápido](#inicio-rápido) · [Desarrollo](#desarrollo)
 
 </div>
 
 ---
 
-> **Paquete privado para uso personal.** Incluye herramientas del fabricante cuyo permiso de redistribución pública no se ha confirmado. MIT corresponde a nuestro código, no al SDK. Consulta los [avisos de terceros](THIRD-PARTY-NOTICES.md).
+> **Herramientas externas.** El ejecutable y este repositorio no incluyen Tianwen Block, su SDK, modelos ni compilador. Studio los localiza en tu PC u ofrece el instalador oficial. MIT solo cubre nuestro codigo. Consulta [Avisos de terceros](THIRD-PARTY-NOTICES.md).
 
 ## Del USB a la Voz
 
@@ -37,12 +37,24 @@ Pulsa las etapas para retroceder o avanzar cuando se cumplan sus requisitos. Sin
 
 ## Inicio Rápido
 
-1. Descarga `ASRPRO-Studio-Windows-x64.zip` desde la [release privada](https://github.com/adriviciano/ASRPRO-Studio/releases/tag/v0.1.0-private). Necesitas acceso al repositorio.
-2. Extrae **todo el ZIP** en una carpeta corta con permisos de escritura, como `C:\ASRPRO-Studio`.
-3. Conecta la ASRPRO-01 con un cable USB de datos.
-4. Abre `ASRPRO-Studio.exe` y sigue las etapas en el navegador.
+### Un Ejecutable, Herramientas Externas
 
-Mantén abierta la ventana del lanzador mientras usas la aplicación. Al cerrarla se detiene el servidor local. No separes el ejecutable de las carpetas `app` y `runtime`.
+`ASRPRO-Studio.exe` incluye la aplicación y Node.js, pero
+no incluye el instalador Tianwen Block ni el SDK del fabricante. Detecta una
+instalación compatible junto al ejecutable o en ubicaciones habituales. Si no
+la encuentra, permite seleccionar una carpeta o autorizar la descarga del
+instalador oficial de 816 MB. Tú revisas la licencia y los permisos de Windows.
+La versión verificada es 2025-1a0907; se rechazan descargas distintas mediante SHA-256.
+Studio prepara su propia copia del SDK sin modificar la instalación original.
+Requiere Windows x64, .NET Framework 4.5+, navegador y controlador USB CH340.
+El asistente de inicio y descarga siempre está en inglés; la aplicación conserva inglés/español. El primer inicio extrae la aplicación en `%LOCALAPPDATA%\ASRPRO`; los siguientes la reutilizan.
+
+1. Descarga `ASRPRO-Studio.exe` desde la [última release](https://github.com/adriviciano/ASRPRO-Studio/releases/latest).
+2. Ábrelo desde una carpeta con permisos de escritura; no necesita carpetas junto al exe.
+3. Deja que detecte Tianwen, selecciona su carpeta o autoriza su descarga e instalación interactiva.
+4. Conecta la ASRPRO-01 con un cable USB de datos y sigue las etapas.
+
+Mantén abierto el lanzador mientras usas Studio. Cerrarlo detiene su servidor local.
 
 | Requisito | Detalles |
 | :--- | :--- |
@@ -52,7 +64,9 @@ Mantén abierta la ventana del lanzador mientras usas la aplicación. Al cerrarl
 | Carpeta | Corta y con permisos de escritura; las rutas largas pueden hacer fallar el compilador oficial |
 | Entorno de ejecución | Node.js incluido; no hace falta instalarlo |
 
-El ejecutable no está firmado y Windows puede mostrar una advertencia. No necesitas abrir Tianwen Block ni su interfaz china.
+### Avisos de Seguridad de Windows
+
+El ejecutable **no está firmado digitalmente**. SmartScreen puede mostrar «Windows protegió su PC» o un aviso de editor desconocido por falta de reputación. Eso por si solo no significa que haya detectado malware. Descarga solo desde este repositorio y compara SHA-256 con las notas de la release. Si Defender detecta una amenaza concreta, no la des por inofensiva ni desactives la protección: detente e informa de la detección exacta.
 
 > **Antes de cargar:** subir firmware borra las frases aprendidas. La aplicación pide confirmación y guarda un respaldo en `app/output/backups`. No desconectes USB durante la carga. El paquete no contiene grabaciones personales ni respaldos de la placa.
 
@@ -94,16 +108,19 @@ El reconocimiento puede emitir el mensaje configurado y `CMD:<id>`. El controlad
 
 ## Desarrollo
 
-El código está en este repositorio. Las herramientas del fabricante se guardan por separado en la release privada, no en el historial Git. Coloca el SDK correspondiente en `vendor/asrpro`.
+El uso previsto pasa por el ejecutable, también cuando lo compilas tu. Generar Studio **no requiere** Tianwen ni su SDK. Compilar después el firmware si necesita las herramientas externas; el lanzador gestiona su preparación.
 
 Utiliza una versión de Node.js compatible con las dependencias. El paquete portátil incluye **Node.js 24.15.0**.
 
 ```powershell
 npm ci
-npm run dev
+npm test
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-exe.ps1
 ```
 
-Abre [http://127.0.0.1:5187/](http://127.0.0.1:5187/). El servidor solo escucha en localhost. `/` abre el modo guiado, `/avanzado` el avanzado y `/guiado` es un alias del guiado.
+Compila en Windows x64 con Node.js 24.15.0, npm y .NET Framework 4.5+ (con compilador C#). El resultado es `releases/ASRPRO-Studio.exe`; ábrelo para preparar las herramientas externas. Se instalan dependencias de producción en una carpeta aislada y se incluye Node.js con su licencia. Nunca se copia `vendor`, comandos personales ni respaldos. Usa `-OutputDirectory C:\ASRPRO-build` para otra carpeta; no se sobrescriben ejecutables existentes.
+
+Solo para desarrollar, `npm run dev` abre [http://127.0.0.1:5187/](http://127.0.0.1:5187/). El servidor solo escucha en localhost. `/` abre el modo guiado, `/avanzado` el avanzado y `/guiado` es un alias del guiado.
 
 | Carpeta | Contenido |
 | :--- | :--- |
@@ -117,14 +134,16 @@ Las instalaciones nuevas usan [voice-commands.example.json](voice-commands.examp
 
 ### Comprobar y Empaquetar
 
+Las dependencias actuales tienen avisos de seguridad de npm, incluidos avisos de gravedad alta en producción. Esta versión no es una auditoría de seguridad; las actualizaciones y su compatibilidad necesitan revisión aparte. Mantén el servicio local y no lo expongas a la red.
+
 ```powershell
 npm test
 npm run check
 npm run build
-powershell -ExecutionPolicy Bypass -File scripts/build-portable.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-exe.ps1
 ```
 
-El empaquetado requiere el SDK oficial y una carpeta de salida limpia. Las pruebas de integración del firmware necesitan artefactos de compilación local; se omiten si no existen. [test-portable.ps1](scripts/test-portable.ps1) comprueba el arranque, la interfaz, la consulta USB y la compilación **sin cargar nada en la placa**.
+El empaquetado no requiere SDK. Las pruebas de firmware necesitan artefactos locales y se omiten si faltan. Ejecuta `releases\ASRPRO-Studio.exe --self-test` para probar el arranque con Tianwen compatible instalado, sin abrir el instalador ni cargar la placa. La instalación completa en un PC sin Tianwen aún no se ha probado. El servidor de desarrollo no ejecuta el asistente: sus funciones de firmware requieren SDK local en `vendor/asrpro`.
 
 ## Solución de Problemas
 
@@ -142,4 +161,4 @@ Nuestro código utiliza [MIT](LICENSE). Node.js, las dependencias JavaScript, el
 
 Proyecto independiente, no una aplicación oficial del fabricante. La compilación y la carga usan sus herramientas, pero no requieren ejecutar el programa gráfico original.
 
-**Mantén el paquete con terceros privado hasta revisar los permisos de redistribución.** Atribuir al autor no sustituye su autorización.
+Las herramientas externas conservan sus condiciones y no estan cubiertas por MIT. Excluir sus archivos no equivale a una auditoría legal completa de dependencias o integración con el SDK. Atribuir al autor no sustituye su autorización.
